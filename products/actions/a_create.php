@@ -16,25 +16,30 @@ require_once '../../components/db_connect.php';
 require_once '../../components/file_upload.php';
 
 if ($_POST) {   
-    $name = $_POST['name'];
+    $brand = $_POST['brand'];
+    $model = $_POST['model'];
+    $horse_power = $_POST['horse_power'];
+    $color = $_POST['color'];
+    $status = $_POST['status'];
     $price = $_POST['price'];
-    $supplier = $_POST['supplier'];    
+        
     $uploadError = '';
     //this function exists in the service file upload.
     $picture = file_upload($_FILES['picture'], 'product');  
    
-    if($supplier == 'none'){
-   //checks if the supplier is undefined and insert null in the DB
-    $sql = "INSERT INTO products (name, price, picture, fk_supplierId) VALUES ('$name', $price, '$picture->fileName', null)";
-   }else{
-    $sql = "INSERT INTO products (name, price, picture, fk_supplierId) VALUES ('$name', $price, '$picture->fileName', $supplier)";
-   }
+    
+    $sql = "INSERT INTO cars (brand, model, horse_power, color, status, price, picture) VALUES ('$brand', '$model', '$horse_power', '$color', '$status', '$price', '$picture->fileName')";
+   
     if ($connect->query($sql) === true) {
 
         $class = "success";
         $message = "The entry below was successfully created <br>
                         <table class='table w-50'><tr>
-                        <td> $name </td>
+                        <td> $brand </td>
+                        <td> $model </td>
+                        <td> $horse_power </td>
+                        <td> $color </td>
+                        <td> $status </td>
                         <td> $price </td>
                         </tr></table><hr>
                         ";

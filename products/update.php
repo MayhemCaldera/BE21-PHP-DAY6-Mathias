@@ -16,27 +16,20 @@ require_once '../components/db_connect.php';
 
 if ($_GET['id']) {
     $id = $_GET['id'];
-    $sql = "SELECT * FROM products WHERE id = {$id}";
+    $sql = "SELECT * FROM cars WHERE id = {$id}";
     $result = $connect->query($sql);
     if ($result->num_rows == 1) {
         $data = $result->fetch_assoc();
-        $name = $data['name'];
+        $brand = $data['brand'];
+        $model = $data['model'];
+        $horse_power = $data['horse_power'];
+        $color = $data['color'];
+        $status = $data['status'];
         $price = $data['price'];
         $picture = $data['picture'];
-        $supplier = $data['fk_supplierId'];
+        
 
-        $resultSup = mysqli_query($connect, "SELECT * FROM supplier");
-        $supList = "";
-        if(mysqli_num_rows($resultSup) > 0){
-            while ($row = $resultSup->fetch_array(MYSQLI_ASSOC)){
-                if($row['supplierId'] == $supplier){
-                    $supList .= "<option selected value='{$row['supplierId']}'>{$row['sup_name']}</option>";  
-                }else{
-                    $supList .= "<option value='{$row['supplierId']}'>{$row['sup_name']}</option>";
-                }}                
-            }else{
-            $supList = "<li>There are no suppliers registered</li>";
-        }
+        
     } else {
         header("location: error.php");
     }
@@ -67,26 +60,42 @@ if ($_GET['id']) {
    <legend class='h2'>Update request <img class='img-thumbnail rounded-circle' src='../pictures/<?php echo $picture ?>' alt="<?php echo $name ?>"></legend>
    <form action="actions/a_update.php"  method="post" enctype="multipart/form-data">
        <table class="table">
+       <tr>
+               <th>Brand</th>
+               <td><input class='form-control' type="text" name="brand"  placeholder="Brand Name" value=<?php echo $brand;?> /></td>
+           </tr>    
            <tr>
-               <th>Name</th>
-               <td><input class="form-control" type="text"  name="name" placeholder ="Product Name" value="<?php echo $name ?>"  /></td>
-           </tr>
+               <th>Model</th>
+               <td><input class='form-control' type="text" name="model"  placeholder="Model Name" value=<?php echo $model;?> /></td>
+           </tr>    
+           <tr>
+               <th>Horsepower</th>
+               <td><input class='form-control' type="text" name="horse_power"  placeholder="Horsepower" value=<?php echo $horse_power;?> /></td>
+           </tr>    
+           <tr>
+               <th>Color</th>
+               <td><input class='form-control' type="text" name="color"  placeholder="Color" value=<?php echo $color;?> /></td>
+           </tr>    
+           <tr>
+               <th>Status</th>
+               <td><input class='form-control' type="text" name="status"  placeholder="Available/Reserved" value=<?php echo $status;?> /></td>
+           </tr>    
            <tr>
                <th>Price</th>
-               <td><input class="form-control" type= "number" step="any" name="price"  placeholder="Price" value ="<?php echo $price ?>" /></td>
+               <td><input class='form-control' type="number" step="any" name= "price" placeholder="Rental Price" value=<?php echo $price;?>/></td>
            </tr>
            <tr>
                <th>Picture</th>
                <td><input class="form-control" type="file" name= "picture" /></td>
            </tr>
-           <tr>
+           <!-- <tr>
                <th>Supplier</th>
                <td>
                <select class="form-select" name="supplier" aria-label="Default select example">
                 <?php echo $supList;?>
                </select>
                </td>
-           </tr>
+           </tr> -->
            <tr>
                <input type= "hidden" name= "id" value= "<?php echo $data['id'] ?>" />
                <input type= "hidden" name= "picture" value= "<?php echo $data['picture'] ?>" />

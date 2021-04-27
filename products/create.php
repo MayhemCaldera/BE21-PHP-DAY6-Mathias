@@ -12,13 +12,10 @@ if (!isset($_SESSION['adm']) && !isset($_SESSION['user'])) {
     exit;
 }
 
-$suppliers = "";
-$result = mysqli_query($connect, "SELECT * FROM supplier");
 
-while ($row = $result->fetch_array(MYSQLI_ASSOC)){
-       $suppliers .= 
-"<option value='{$row['supplierId']}'>{$row['sup_name']}</option>";
-    }
+// $result = mysqli_query($connect, "SELECT * FROM cars");
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,26 +38,34 @@ while ($row = $result->fetch_array(MYSQLI_ASSOC)){
    <form action="actions/a_create.php" method= "post" enctype="multipart/form-data">
    <table class='table'>
            <tr>
-               <th>Name</th>
-               <td><input class='form-control' type="text" name="name"  placeholder="Product Name" /></td>
+               <th>Brand</th>
+               <td><input class='form-control' type="text" name="brand"  placeholder="Brand Name" /></td>
+           </tr>    
+           <tr>
+               <th>Model</th>
+               <td><input class='form-control' type="text" name="model"  placeholder="Model Name" /></td>
+           </tr>    
+           <tr>
+               <th>Horsepower</th>
+               <td><input class='form-control' type="text" name="horse_power"  placeholder="Horsepower" /></td>
+           </tr>    
+           <tr>
+               <th>Color</th>
+               <td><input class='form-control' type="text" name="color"  placeholder="Color" /></td>
+           </tr>    
+           <tr>
+               <th>Status</th>
+               <td><input class='form-control' type="text" name="status"  placeholder="Available/Reserved" /></td>
            </tr>    
            <tr>
                <th>Price</th>
-               <td><input class='form-control' type="number" step="any" name= "price" placeholder="Price" /></td>
+               <td><input class='form-control' type="number" step="any" name= "price" placeholder="Rental Price" /></td>
            </tr>
            <tr>
                <th>Picture</th>
                <td><input class='form-control' type="file" name="picture" /></td>
            </tr>
-           <tr>
-               <th>Supplier</th>
-               <td>
-               <select class="form-select" name="supplier" aria-label="Default select example">
-                <?php echo $suppliers;?>
-                <option selected value='none'>Undefined</option>
-               </select>
-               </td>
-           </tr>
+           
            <tr>
                <td><button class='btn btn-success' type="submit">Insert Product</button></td>
                <td><a href="index.php"><button class='btn btn-warning' type="button">Home</button></a></td>
