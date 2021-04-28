@@ -57,7 +57,7 @@ if (isset($_POST['btn-login'])) {
                 header( "Location: dashboard.php");}
             else{
                 $_SESSION['user'] = $row['id']; 
-               header( "Location: home.php");
+               header( "Location: products/home.php");
             }          
         } else {
             $errMSG = "Incorrect Credentials, Try again...";
@@ -74,8 +74,23 @@ $connect->close();
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login & Registration System</title>
         <?php require_once 'components/boot.php'?>
+        <style>
+        .header {
+            margin-bottom: 2em;
+            padding: 60px;
+            text-align: center;
+            background: #1abc9c;
+            color: white;
+            font-size: 30px
+            
+        }
+        
+        </style>
     </head>
     <body>
+    <header>
+        <?php require_once "components/welcome.php" ?>
+    </header>
         <div class="container">
             <form class="w-75" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
                 <h2>LogIn</h2>
@@ -86,7 +101,7 @@ $connect->close();
                 }
                 ?>
         
-                <input type="email" autocomplete="off" name="email" class="form-control" placeholder="Your Email" value="<?php echo $email; ?>"  maxlength="40" />
+                <input type="email" autocomplete="on" name="email" class="form-control" placeholder="Your Email" value="<?php echo $email; ?>"  maxlength="40" />
                 <span class="text-danger"><?php echo $emailError; ?></span>
 
                 <input type="password" name="pass"  class="form-control" placeholder="Your Password" maxlength="15"  />

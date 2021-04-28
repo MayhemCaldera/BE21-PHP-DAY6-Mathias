@@ -28,14 +28,15 @@ if ($result->num_rows > 0) {
             <td>" . $row['first_name'] . " " . $row['last_name'] . "</td>
             <td>" . $row['date_of_birth'] . "</td>
             <td>" . $row['email'] . "</td>
-            <td><a href='update.php?id=" . $row['id'] . "'><button class='btn btn-primary btn-sm' type='button'>Edit</button></a>
+            <td><a href='admin_update.php?id=" . $row['id'] . "'><button class='btn btn-primary btn-sm' type='button'>Edit</button></a>
             <a href='delete.php?id=" . $row['id'] . "'><button class='btn btn-danger btn-sm' type='button'>Delete</button></a></td>
          </tr>";
     }
 } else {
     $tbody = "<tr><td colspan='5'><center>No Data Available </center></td></tr>";
-}
-
+};
+include_once "components/cars_sql.php";
+include_once "components/bookings_sql.php";
 $connect->close();
 ?>
 
@@ -66,31 +67,32 @@ $connect->close();
     </head>
     <body>
         <div class="container">
-            <div class="row">
+        <div class="row">
                 <div class="col-2">
                     <img class="userImage" src="pictures/admavatar.png" alt="Adm avatar">
                     <p class="">Administrator</p>
-                    <a href="products/index.php">products</a>
+                    
                     <a href="logout.php?logout">Sign Out</a>
-                </div>
-                <div class="col-8 mt-2">
-                    <p class='h2'>Users</p>
-                    <table class='table table-striped'>
-                        <thead class='table-success'>
-                            <tr>
-                                <th>Picture</th>
-                                <th>Name</th>
-                                <th>Date of birth</th>
-                                <th>Email</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?=$tbody?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                </div></div>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">User</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Cars</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Bookings</button>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"><?php require_once "components/user.php" ?></div>
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"><?php require_once "components/cars.php" ?></div>
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"><?php require_once "components/bookings.php" ?></div>
+</div>
+
+
         </div>
+        <?php require_once "components/boot_js.php" ?>
     </body>
 </html>

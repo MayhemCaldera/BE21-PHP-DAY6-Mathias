@@ -25,11 +25,11 @@ if (!isset($_SESSION['adm']) && !isset($_SESSION['user'])) {
     <?php require_once '../components/boot.php'?>
     <title>PHP CRUD  |  Add Product</title>
     <style>
-        fieldset {
+        /* fieldset {
             margin: auto;
             margin-top: 100px;
             width: 60% ;
-        }       
+        }        */
     </style>
 </head>
 <body>
@@ -68,7 +68,7 @@ if (!isset($_SESSION['adm']) && !isset($_SESSION['user'])) {
            
            <tr>
                <td><button class='btn btn-success' type="submit">Insert Product</button></td>
-               <td><a href="index.php"><button class='btn btn-warning' type="button">Home</button></a></td>
+               <td><a href="../dashboard.php"><button class='btn btn-warning' type="button">Home</button></a></td>
            </tr>
        </table>
    </form>

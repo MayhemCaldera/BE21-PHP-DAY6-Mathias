@@ -3,7 +3,7 @@ session_start();
 require_once 'components/db_connect.php';
 require_once 'components/file_upload.php';
 // if session is not set this will redirect to login page
-if( !isset($_SESSION['adm']) && !isset($_SESSION['user']) ) {
+if( !isset($_SESSION['adm'])) {
     header("Location: index.php");
     exit;
 }
@@ -11,7 +11,7 @@ if( !isset($_SESSION['adm']) && !isset($_SESSION['user']) ) {
 $backBtn = '';
 //if it is a user it will create a back button to home.php
 if(isset($_SESSION["user"])){
-    $backBtn = "products/home.php";    
+    $backBtn = "home.php";    
 }
 //if it is a adm it will create a back button to dashboard.php
 if(isset($_SESSION["adm"])){
@@ -28,6 +28,7 @@ if (isset($_GET['id'])) {
         $f_name = $data['first_name'];
         $l_name = $data['last_name'];
         $email = $data['email'];
+        $status = $data['status'];
         $date_of_birth = $data['date_of_birth'];
         $picture = $data['picture'];
     }   
@@ -39,6 +40,7 @@ if (isset($_POST["submit"])) {
     $f_name = $_POST['first_name'];
     $l_name = $_POST['last_name'];
     $email = $_POST['email'];
+    $status = $_POST['status'];
     $date_of_birth = $_POST['date_of_birth'];
     $id = $_POST['id'];
     //variable for upload pictures errors is initialized
@@ -47,9 +49,9 @@ if (isset($_POST["submit"])) {
     $picture = $pictureArray->fileName;
     if ($pictureArray->error === 0) {       
         ($_POST["picture"] == "avatar.png") ?: unlink("pictures/{$_POST["picture"]}");
-        $sql = "UPDATE user SET first_name = '$f_name', last_name = '$l_name', email = '$email', date_of_birth = '$date_of_birth', picture = '$pictureArray->fileName' WHERE id = {$id}";
+        $sql = "UPDATE user SET first_name = '$f_name', last_name = '$l_name', email = '$email', status = '$status', date_of_birth = '$date_of_birth', picture = '$pictureArray->fileName' WHERE id = {$id}";
     } else {
-        $sql = "UPDATE user SET first_name = '$f_name', last_name = '$l_name', email = '$email', date_of_birth = '$date_of_birth' WHERE id = {$id}";
+        $sql = "UPDATE user SET first_name = '$f_name', last_name = '$l_name', email = '$email', status = '$status', date_of_birth = '$date_of_birth' WHERE id = {$id}";
     }
     if ($connect->query($sql) === true) {     
         $class = "alert alert-success";
@@ -108,6 +110,15 @@ $connect->close();
                     <tr>
                         <th>Email</th>
                         <td><input class="form-control" type="email" name="email" placeholder= "Email" value= "<?php echo $email ?>" /></td>
+                    </tr>
+                    <tr>
+                        <th>Change Status</th>
+                        <td>
+                            <select  class="form-select"  name= "supplier"  aria-label= "Default select example" ><?php  echo $status; ?>
+                                <option selected value ='user'>User</option>
+                                <option value ='adm' >Admin</option>
+                            </select >
+                        </td>
                     </tr>
                     <tr>
                         <th>Date of birth</th>

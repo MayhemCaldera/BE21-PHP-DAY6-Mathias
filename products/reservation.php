@@ -1,23 +1,38 @@
- 
 <?php 
 session_start();
 require_once '../components/db_connect.php';
 
 
-// if (isset($_SESSION['user']) != "") {
-//     header("Location: index.php");
-//     exit;
-// }
-
 // if (isset($_SESSION['adm'])) {
-//     header("Location: ./dashboard.php");
+//     header("Location: dashboard.php");
 //     exit;
 // }
 
 if (!isset($_SESSION['adm']) && !isset($_SESSION['user'])) {
-    header("Location: ./index.php");
+    header("Location: ../index.php");
     exit;
 }
+// create booking
+if (isset($_POST['submitb'])) {
+    $p_id = $_POST['pID'];
+    $u_id = $_SESSION['user'];
+    $queryCheck = "SELECT * FROM booking WHERE fk_car ='$p_id'";
+    $cres = mysqli_query($connect, $queryCheck);
+    $count = mysqli_num_rows($cres);
+    if ($count != 0) {
+        $messageA = "Product is already booked";
+        echo "<script type='text/javascript'>alert('$messageA');</script>";
+    } else {
+        $sqlin = "INSERT INTO booking (fk_car, fk_user) VALUES ('$p_id', '$u_id')";
+        if ($connect->query($sqlin) === TRUE) {
+            $messageB = "Booking successfully";
+            echo "<script type='text/javascript'>alert('$messageB');</script>";
+        } else {
+            echo "Error: " . $sqlin . "<br>" . $connect->error;
+        };
+    };  
+}
+
 
 $sql = "SELECT * FROM cars";
 $result = mysqli_query($connect ,$sql);
@@ -25,11 +40,17 @@ $tbody=''; //this variable will hold the body for the table
 if(mysqli_num_rows($result)  > 0) {     
      while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){         
         $tbody .= "<tr>
-            <td><img class='img-thumbnail' src='../pictures/" .$row['picture']."'</td>
+            <td><img src='../pictures/" .$row['picture']."'</td>
             <td>" .$row['brand']."</td>
             <td>" .$row['model']."</td>
             <td>" .$row['status']."</td>
-            <td><a href='reservation.php?id=" .$row['id']."'><button class='btn btn-primary btn-sm' type='button'>Details/Reservation</button></a>
+            <td>" .$row['horse_power']." PS"."</td>
+            <td>" .$row['price']." €"."</td>
+            <td><form action='reservation.php' method='post'>
+            <input type ='hidden' name='pID' class='form-control' value='".$row['id']."'/>
+            <button class='btn btn-primary btn-sm' name='submitb' type='submit'>Rent Me</button>
+        </form>
+            
             </td>
          </tr>
         ";
@@ -48,18 +69,11 @@ $connect->close();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP CRUD</title>
-    
     <?php require_once '../components/boot.php' ?>
-    <style type="text/css">
-        .manageProduct {           
-            margin: auto;
-        }
-        .img-thumbnail{
-            width: 300px !important;
-            height: 180px !important;
-        }
+    <title>Reservation</title>
+    <style>
         td 
         {          
             text-align: center;
@@ -69,15 +83,20 @@ $connect->close();
         {
             text-align: center;
         }
+        img {
+            width: 300px;
+            height: 180px;
+        }
+    
     </style>
 </head>
-
-
 <body>
+    
 <header>
 <?php require_once "../components/navbar.php" ?>
 </header>
-<div class="manageProduct w-75 mt-3">    
+<div class="container">
+<div class="manageProduct w-90 mt-3">    
    
    <p class='h2'>Cars for Rental</p>
    
@@ -88,6 +107,8 @@ $connect->close();
                <th>Brand</th>
                <th>Model</th>
                <th>Status</th>
+               <th>Horsepower</th>
+               <th>Price per Day</th>
                <th>Action</th>
            </tr>
        </thead>
@@ -97,9 +118,7 @@ $connect->close();
        </tbody>
    </table>
 </div>
-
+</div>
 <?php require_once "../components/boot_js.php" ?>
-
 </body>
 </html>
-
