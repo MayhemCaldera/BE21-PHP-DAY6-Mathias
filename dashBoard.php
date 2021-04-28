@@ -52,6 +52,10 @@ $connect->close();
                 width: 70px !important;
                 height: 70px !important;
             }
+            .img-car {
+                width: 300px;
+                heigth: 180px;
+            }
             td{
                 text-align: left;
                 vertical-align: middle;

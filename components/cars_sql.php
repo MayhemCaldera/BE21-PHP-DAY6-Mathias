@@ -5,7 +5,7 @@ $tbody_cars=''; //this variable will hold the body for the table
 if(mysqli_num_rows($result_cars)  > 0) {     
      while($row_cars = mysqli_fetch_array($result_cars, MYSQLI_ASSOC)){         
         $tbody_cars .= "<tr>
-            <td><img class='img-thumbnail' src='./pictures/" .$row_cars['picture']."'</td>
+            <td><img class='img-car' src='./pictures/" .$row_cars['picture']."'</td>
             <td>" .$row_cars['brand']."</td>
             <td>" .$row_cars['model']."</td>
             <td>" .$row_cars['status']."</td>
