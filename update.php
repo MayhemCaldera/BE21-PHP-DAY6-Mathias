@@ -7,7 +7,8 @@ if( !isset($_SESSION['adm']) && !isset($_SESSION['user']) ) {
     header("Location: index.php");
     exit;
 }
-   
+$message = ''; 
+$uploadError = '';
 $backBtn = '';
 //if it is a user it will create a back button to home.php
 if(isset($_SESSION["user"])){
@@ -89,8 +90,8 @@ $connect->close();
     <body>
         <div class="container">
             <div class="<?php echo $class; ?>" role="alert">
-                <p><?php echo ($message) ?? ''; ?></p>
-                <p><?php echo ($uploadError) ?? ''; ?></p>       
+                <p><?php echo $message; ?></p>
+                <p><?php echo $uploadError; ?></p>       
             </div>
     
             <h2>Update</h2>        
