@@ -34,9 +34,15 @@ if (isset($_POST['submitb'])) {
 }
 
 
-$sql = "SELECT * FROM cars";
-$result = mysqli_query($connect ,$sql);
 $tbody=''; //this variable will hold the body for the table
+if ($_GET["id"]) {
+    $p_id = $_GET['id']; 
+    
+    // echo $p_id;
+    // echo "hi";
+$sql = "SELECT * FROM cars WHERE id = '$p_id'";
+$result = mysqli_query($connect ,$sql);
+
 if(mysqli_num_rows($result)  > 0) {     
      while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){         
         $tbody .= "<tr>
@@ -58,7 +64,9 @@ if(mysqli_num_rows($result)  > 0) {
      };
 } else  {
     $tbody =  "<tr><td colspan='5'><center>No Data Available </center></td></tr>";
+};
 }
+
 
 $connect->close();
 

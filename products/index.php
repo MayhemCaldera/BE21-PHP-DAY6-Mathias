@@ -29,7 +29,7 @@ if(mysqli_num_rows($result)  > 0) {
             <td>" .$row['brand']."</td>
             <td>" .$row['model']."</td>
             <td>" .$row['status']."</td>
-            <td><a href='reservation.php?id=" .$row['id']."'><button class='btn btn-primary btn-sm' type='button'>Details/Reservation</button></a>
+            <td><a href='reservation.php?id=" .$row['id']."'><button class='btn btn-primary btn-sm' name='reservation' type='button'>Details/Reservation</button></a>
             </td>
          </tr>
         ";

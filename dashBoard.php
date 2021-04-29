@@ -21,6 +21,8 @@ $work = $stmt->execute();
 $result = $stmt->get_result();
 //this variable will hold the body for the table
 $tbody = ''; 
+
+
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
         $tbody .= "<tr>
@@ -36,6 +38,7 @@ if ($result->num_rows > 0) {
     $tbody = "<tr><td colspan='5'><center>No Data Available </center></td></tr>";
 };
 include_once "components/cars_sql.php";
+include_once "components/user_sql.php";
 include_once "components/bookings_sql.php";
 $connect->close();
 ?>
@@ -57,7 +60,7 @@ $connect->close();
                 heigth: 180px;
             }
             td{
-                text-align: left;
+                text-align: center;
                 vertical-align: middle;
             }
             tr{
